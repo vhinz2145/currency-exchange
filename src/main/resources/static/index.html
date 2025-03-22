@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exchange Rate Lookup</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, button {
+            margin: 5px 0;
+            padding: 10px;
+            width: 100%;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Exchange Rate Lookup</h2>
+
+    <form id="exchangeRateForm">
+        <label for="currencies">Enter Currencies (ISO 4217 codes, comma-separated):</label>
+        <input type="text" id="currencies" name="currencies" placeholder="Example: USD,EUR,PHP" required>
+        <small>Use commas (,) to separate multiple currencies.</small>
+        <br><br>
+
+        <label for="cutOffDate">Cut-off Date (optional):</label>
+        <input type="date" id="cutOffDate" name="cutOffDate">
+        <br><br>
+
+        <button type="submit" id="submitBtn">Get Exchange Rates</button>
+    </form>
+
+    <h3>Exchange Rates:</h3>
+    <pre id="response">No data yet.</pre>
+
+    <script>
+        $(document).ready(function () {
+            $("#exchangeRateForm").submit(function (event) {
+                event.preventDefault(); // Stop default form submission
+
+                let currencies = $("#currencies").val().trim();
+                let cutOffDate = $("#cutOffDate").val();
+
+                if (!currencies) {
+                    alert("Please enter at least one currency.");
+                    return;
+                }
+
+                let currencyList = currencies.split(",").map(c => c.trim()).filter(c => c !== "");
+
+                let apiUrl = "http://localhost:8081/api/exchange-rates?source=" + currencyList[0];
+                
+                if (currencyList.length > 1) {
+                    apiUrl += "&target=" + currencyList[1]; // Send only two currencies (source & target)
+                }
+
+                if (cutOffDate && cutOffDate !== "") {
+                    apiUrl += "&cutOffDate=" + cutOffDate;
+                }
+
+                $.get(apiUrl, function (data) {
+                    $("#response").text(JSON.stringify(data, null, 4));
+                }).fail(function (xhr) {
+                    $("#response").text("Error: " + (xhr.responseText || "Failed to fetch data"));
+                });
+            });
+
+            // Submit the form when Enter is pressed
+            $("#exchangeRateForm").keypress(function (event) {
+                if (event.which === 13) {
+                    event.preventDefault();
+                    $("#submitBtn").click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
