@@ -45,11 +45,3 @@ target/
 .DS_Store
 Thumbs.db
 
-# Ignore Maven & Gradle files
-/.mvn/
-/mvnw
-/mvnw.cmd
-
-# Ignore environment variables
-.env
-application.properties
