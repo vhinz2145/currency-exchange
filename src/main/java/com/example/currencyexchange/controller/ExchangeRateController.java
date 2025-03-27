@@ -22,7 +22,7 @@ public class ExchangeRateController {
 
     public ExchangeRateController(ExchangeRateService exchangeRateService) {
         this.exchangeRateService = exchangeRateService;
-    }
+            }
 
         @GetMapping({"/exchange-rate/{source}", "/exchange-rate/{source}/{target}", "/exchange-rate/{source}/{target}/{year}",
                 "/exchange-rate/{source}/{target}/{year}/{month}", "/{source}/{target}/{year}/{month}/{day}"})
@@ -32,9 +32,8 @@ public class ExchangeRateController {
         @PathVariable(required = false) Integer year,
         @PathVariable(required = false) Integer month,
         @PathVariable(required = false) Integer day,
-        HttpServletRequest request,
-        HttpServletResponse response) {
-
+            HttpServletRequest request,
+            HttpServletResponse response) {
         List<ExchangeRate> exchangeRates = exchangeRateService.getFilteredExchangeRates(source, target, year, month, day);
 
         if (exchangeRates.isEmpty()) {
@@ -51,32 +50,29 @@ public class ExchangeRateController {
             return ResponseEntity.ok().body(exchangeRates);
                 }
 
-                @PostMapping("/exchange-rate")
-                public ResponseEntity<?> handleExchangeRate(@RequestBody ExchangeRateRequest request) {
-                    String[] sources = request.getSource().split("/");
-                    LocalDate cutOffDate = request.getCutOffDate(); // This can be null
-                    String target = request.getTarget();
-                    List<ExchangeRate> exchangeRates = new ArrayList<>();
+        @PostMapping("/exchange-rate")
+    public ResponseEntity<?> handleExchangeRate(@RequestBody ExchangeRateRequest request) {
+            String[] sources = request.getSource().split("/");
+            LocalDate cutOffDate = request.getCutOffDate(); 
+            String target = request.getTarget();
+            List<ExchangeRate> exchangeRates = new ArrayList<>();
                 
-                    for (String source : sources) {
-                        source = source.trim();
-                
-                        if (target == null || target.isEmpty()) {
-                            // Fetch rates with or without cutoff date
-                            List<ExchangeRate> rates = (cutOffDate == null) 
-                                ? exchangeRateService.getExchangeRatesBySource(source) // Fetch all available rates
-                                : exchangeRateService.getExchangeRatesBySourceAndDate(source, cutOffDate);
+        for (String source : sources) {
+                source = source.trim();
+        if (target == null || target.isEmpty()) {
+            List<ExchangeRate> rates = (cutOffDate == null) 
+            ? exchangeRateService.getExchangeRatesBySource(source) 
+            : exchangeRateService.getExchangeRatesBySourceAndDate(source, cutOffDate);
                                 
-                            exchangeRates.addAll(rates);
-                        } else {
-                            // Save exchange rate with or without cutoff date
-                            ExchangeRate savedRate = exchangeRateService.saveExchangeRate(source, target, cutOffDate);
-                            exchangeRates.add(savedRate);
-                        }
-                    }
-                
-                    return exchangeRates.isEmpty()
-                        ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("No exchange rates found.")
-                        : ResponseEntity.ok(exchangeRates);
-                }
+            exchangeRates.addAll(rates);
+            } 
+        else {
+            ExchangeRate savedRate = exchangeRateService.saveExchangeRate(source, target, cutOffDate);
+            exchangeRates.add(savedRate);
             }
+            }
+        return exchangeRates.isEmpty()
+            ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("No exchange rates found.")
+            : ResponseEntity.ok(exchangeRates);
+            }
+        }
