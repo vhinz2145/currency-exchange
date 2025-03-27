@@ -4,11 +4,10 @@ import java.util.Map;
 
 public class ExchangeRateApiResponse {
     
-    private Map<String, Object> rates;  // The map of currency rates
-    private String base;                // The base currency (e.g., USD, EUR)
-    private String date;                // The date of the rates
+    private Map<String, Object> rates;
+    private String base;                
+    private String date;                
 
-    // Getters and 
     public Map<String, Object> getRates() {
         return rates;
     }
@@ -19,7 +18,6 @@ public class ExchangeRateApiResponse {
         return date;
     }
 
-    // Setters
     public void setRates(Map<String, Object> rates) {
         this.rates = rates;
     }

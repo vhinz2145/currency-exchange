@@ -10,7 +10,6 @@ import java.util.List;
 
 @Repository
 public interface ExchangeRateRepository extends JpaRepository<ExchangeRate, Long> {
-
         List<ExchangeRate> findBySourceCurrency(String sourceCurrency);
         List<ExchangeRate> findBySourceCurrencyAndCutOffDate(String sourceCurrency, LocalDate cutOffDate);
         List<ExchangeRate> findBySourceCurrencyAndTargetCurrency(String sourceCurrency, String targetCurrency);
@@ -27,7 +26,7 @@ public interface ExchangeRateRepository extends JpaRepository<ExchangeRate, Long
         @Param("targetCurrency") String targetCurrency, 
         @Param("year") int year, 
         @Param("month") int month,
-        @Param("day") int day
+        @Param("day") int day 
         );
 
         @Query("SELECT e FROM ExchangeRate e WHERE e.sourceCurrency = :sourceCurrency " +
@@ -36,7 +35,7 @@ public interface ExchangeRateRepository extends JpaRepository<ExchangeRate, Long
         List<ExchangeRate> findBySourceCurrencyAndTargetCurrencyAndYear(
         @Param("sourceCurrency") String sourceCurrency, 
         @Param("targetCurrency") String targetCurrency, 
-        @Param("year") int year
+        @Param("year") int year 
         );
 
         @Query("SELECT e FROM ExchangeRate e WHERE e.sourceCurrency = :sourceCurrency " +
@@ -47,6 +46,6 @@ public interface ExchangeRateRepository extends JpaRepository<ExchangeRate, Long
         @Param("sourceCurrency") String sourceCurrency, 
         @Param("targetCurrency") String targetCurrency, 
         @Param("year") int year, 
-        @Param("month") int month
+        @Param("month") int month 
         );
-}
+        }

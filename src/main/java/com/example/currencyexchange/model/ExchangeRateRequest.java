@@ -9,7 +9,6 @@ public class ExchangeRateRequest {
     private String target;
     private LocalDate cutOffDate;
 
-    // Getters
     public String getSource() { 
         return source; 
     }
@@ -20,7 +19,6 @@ public class ExchangeRateRequest {
         return target; 
     }
 
-    // Setters
     public void setTarget(String target) {
         this.target = target; 
     }

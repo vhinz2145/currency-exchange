@@ -16,8 +16,7 @@ import java.util.Map;
 public class ExchangeRateService {
 
     private final ExchangeRateRepository exchangeRateRepository;
-
-        private final RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
     
     @Value("${exchangerateapi.url}")
     private String exchangeRateApiUrl;
@@ -33,7 +32,8 @@ public class ExchangeRateService {
     public List<ExchangeRate> getExchangeRatesBySourceAndDate(String sourceCurrency, LocalDate cutOffDate) 
             { return exchangeRateRepository.findBySourceCurrencyAndCutOffDate(sourceCurrency, cutOffDate); }
     public List<ExchangeRate> getExchangeRatesBySourceAndTarget(String sourceCurrency, String targetCurrency) 
-            { return exchangeRateRepository.findBySourceCurrencyAndTargetCurrency(sourceCurrency, targetCurrency); }
+            { return exchangeRateRepository.findBySourceCurrencyAndTargetCurrency(sourceCurrency, targetCurrency); 
+            }
 
     @Transactional
     public List<ExchangeRate> getFilteredExchangeRates(String sourceCurrency, String targetCurrency, LocalDate date) {
@@ -66,7 +66,7 @@ public class ExchangeRateService {
         ResponseEntity<Map> response = restTemplate.getForEntity(url, Map.class);
         Map<String, Object> rates = (Map<String, Object>) response.getBody().get("rates");
         return new BigDecimal(rates.get(targetCurrency).toString());
-    }
+        }
 
     @Transactional
     public ExchangeRate saveExchangeRate(String sourceCurrency, String targetCurrency, LocalDate cutOffDate) {
@@ -77,5 +77,5 @@ public class ExchangeRateService {
         exchangeRateEntity.setCutOffDate(cutOffDate);
         exchangeRateEntity.setExchangeRate(exchangeRate);
         return exchangeRateRepository.save(exchangeRateEntity);
-    }
+        }
 }

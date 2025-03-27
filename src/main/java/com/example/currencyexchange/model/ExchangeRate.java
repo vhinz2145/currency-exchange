@@ -2,7 +2,6 @@ package com.example.currencyexchange.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -16,7 +15,7 @@ import java.time.LocalDate;
 public class ExchangeRate {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // ✅ Primary key must be auto-generated
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "cut_off_date", nullable = false)
