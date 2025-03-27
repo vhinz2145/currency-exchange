@@ -25,7 +25,7 @@ public class ExchangeRateController {
             }
 
         @GetMapping({"/exchange-rate/{source}", "/exchange-rate/{source}/{target}", "/exchange-rate/{source}/{target}/{year}",
-                "/exchange-rate/{source}/{target}/{year}/{month}", "/{source}/{target}/{year}/{month}/{day}"})
+                "/exchange-rate/{source}/{target}/{year}/{month}", "/exchange-rate/{source}/{target}/{year}/{month}/{day}"})
     public ResponseEntity<List<ExchangeRate>> getExchangeRates(
         @PathVariable String source,
         @PathVariable(required = false) String target,
